@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prayer Jar</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:linear-gradient(135deg,#e8f2ff,#f5edff);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.container{
+    width:100%;
+    max-width:500px;
+}
+
+.card{
+    background:white;
+    border-radius:25px;
+    padding:30px;
+    box-shadow:0 10px 30px rgba(0,0,0,.12);
+    text-align:center;
+}
+
+h1{
+    font-size:2.5rem;
+    margin-bottom:10px;
+}
+
+.subtitle{
+    color:#666;
+    margin-bottom:25px;
+}
+
+.jar{
+    font-size:5rem;
+    margin-bottom:20px;
+}
+
+.button-grid{
+    display:grid;
+    gap:12px;
+}
+
+button{
+    border:none;
+    border-radius:15px;
+    padding:15px;
+    font-size:1rem;
+    cursor:pointer;
+    transition:.2s;
+}
+
+button:hover{
+    transform:translateY(-2px);
+}
+
+.category{
+    background:#edf3ff;
+}
+
+.secondary{
+    background:#f2f2f2;
+}
+
+#verseCard{
+    display:none;
+    animation:fade .5s ease;
+}
+
+@keyframes fade{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.reference{
+    color:#4a6fff;
+    font-weight:bold;
+    margin-bottom:15px;
+}
+
+.verse{
+    font-size:1.1rem;
+    line-height:1.5;
+    margin-bottom:20px;
+}
+
+.message{
+    background:#f7f9ff;
+    padding:15px;
+    border-radius:15px;
+    margin-bottom:20px;
+    color:#444;
+}
+
+.bottom-buttons{
+    display:flex;
+    gap:10px;
+}
+
+.bottom-buttons button{
+    flex:1;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="card" id="homeCard">
+    <div class="jar">🫙</div>
+
+    <h1>Prayer Jar</h1>
+
+    <p class="subtitle">
+        When life feels overwhelming, let God speak.
+    </p>
+
+    <div class="button-grid">
+        <button class="category" onclick="showVerse('worth')">💜 Self Worth</button>
+        <button class="category" onclick="showVerse('anxiety')">🌿 Anxiety</button>
+        <button class="category" onclick="showVerse('lonely')">☀️ Loneliness</button>
+        <button class="category" onclick="showVerse('trust')">✝️ Trusting God</button>
+    </div>
+</div>
+
+<div class="card" id="verseCard">
+
+    <div class="reference" id="reference"></div>
+
+    <div class="verse" id="verse"></div>
+
+    <div class="message" id="message"></div>
+
+    <div class="bottom-buttons">
+        <button onclick="anotherVerse()">Another Verse</button>
+        <button class="secondary" onclick="goBack()">Back</button>
+    </div>
+
+</div>
+
+</div>
+
+<script>
+
+let currentCategory = "";
+
+const verses = {
+
+worth:[
+{
+ref:"Psalm 139:14",
+verse:"I praise you because I am fearfully and wonderfully made.",
+msg:"Your worth doesn't come from other people's opinions. God made you intentionally and loves you deeply."
+},
+{
+ref:"Ephesians 2:10",
+verse:"For we are God's handiwork, created in Christ Jesus for good works.",
+msg:"You were created with purpose. Your life matters more than you realize."
+},
+{
+ref:"Isaiah 43:1",
+verse:"I have called you by name; you are mine.",
+msg:"God knows you personally and has never forgotten you."
+}
+],
+
+anxiety:[
+{
+ref:"Philippians 4:6-7",
+verse:"Do not be anxious about anything.",
+msg:"You don't have to solve tomorrow tonight. Give your worries to God one step at a time."
+},
+{
+ref:"Psalm 46:10",
+verse:"Be still, and know that I am God.",
+msg:"It's okay to slow down. God is already where you're trying to get."
+},
+{
+ref:"Matthew 6:34",
+verse:"Do not worry about tomorrow.",
+msg:"Focus on today. God will be there tomorrow too."
+}
+],
+
+lonely:[
+{
+ref:"Deuteronomy 31:6",
+verse:"He will never leave you nor forsake you.",
+msg:"Even when you feel alone, God hasn't left your side."
+},
+{
+ref:"Joshua 1:9",
+verse:"The Lord your God is with you wherever you go.",
+msg:"You are never walking through life by yourself."
+},
+{
+ref:"Psalm 34:18",
+verse:"The Lord is close to the brokenhearted.",
+msg:"God draws near when life hurts."
+}
+],
+
+trust:[
+{
+ref:"Proverbs 3:5-6",
+verse:"Trust in the Lord with all your heart.",
+msg:"You don't need every answer right now. Trust the One who sees the whole picture."
+},
+{
+ref:"Jeremiah 29:11",
+verse:"For I know the plans I have for you.",
+msg:"God's plans are bigger than your fears."
+},
+{
+ref:"Romans 8:28",
+verse:"In all things God works for the good.",
+msg:"Even the confusing parts of your story can be used for something good."
+}
+]
+
+};
+
+function showVerse(category){
+    currentCategory = category;
+
+    document.getElementById("homeCard").style.display = "none";
+    document.getElementById("verseCard").style.display = "block";
+
+    anotherVerse();
+}
+
+function anotherVerse(){
+
+    const list = verses[currentCategory];
+
+    const item = list[Math.floor(Math.random()*list.length)];
+
+    document.getElementById("reference").textContent = item.ref;
+    document.getElementById("verse").textContent = item.verse;
+    document.getElementById("message").textContent = item.msg;
+}
+
+function goBack(){
+    document.getElementById("verseCard").style.display = "none";
+    document.getElementById("homeCard").style.display = "block";
+}
+
+</script>
+
+</body>
+</html>
